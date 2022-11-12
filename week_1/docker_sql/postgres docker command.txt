@@ -1,0 +1,39 @@
+winpty docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v C:\Users\hp\Desktop\data_engineering\week_1\docker_sql\ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  postgres:13
+
+--postgres server
+docker run -it -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=ny_taxi -v C:\Users\hp\Desktop\data_engineering\week_1\docker_sql\ny_taxi_postgres_data:/var/lib/postgresql/data -p 5432:5432 postgres:13
+
+--pgadmin
+docker run -it -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" -e PGADMIN_DEFAULT_PASSWORD="root" -p 8080:80 dpage/pgadmin4
+
+
+---- creating network
+docker network create [network-name]
+---- run postgres, change path
+docker run -it -e POSTGRES_USER="root" -e POSTGRES_PASSWORD="root" -e POSTGRES_DB="ny_taxi" -v C:\Users\hp\Desktop\data_engineering\week_1\docker_sql\ny_taxi_postgres_data:/var/lib/postgresql/data -p 5432:5432 --network=pg-network --name pg-database postgres:13
+
+-- run pgadmin on same network
+docker run -it -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" -e PGADMIN_DEFAULT_PASSWORD="root" -p 5432:80 --network=pg-network --name pgadmin-2 dpage/pgadmin4
+
+
+python ingest_data.py --user=root --password=root --host=localhost --port=5432 --db=ny_taxi --table_name=yellow_taxi_trips
+
+docker build -t ingest_data:001 .
+
+-- run docker file
+docker run -it --network=pg-network ingest_data:001 --user=root --password=root --host=pg-database --port=5432 --db=ny_taxi --table_name=yellow_taxi_trips 
+
+-- run docker compose
+docker-compose up
+
+-- stop docker compose
+docker-compose down
+
+  https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+  https://www1.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf
