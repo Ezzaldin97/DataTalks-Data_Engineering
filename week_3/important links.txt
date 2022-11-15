@@ -1,0 +1,6 @@
+ML Big Query Tutorial
+https://cloud.google.com/bigquery-ml/docs/tutorials
+ML BigQuery HyperParameter Tuning
+https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-create-glm
+ML BigQuery Preprocessing/Feature Engineering....
+https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-preprocess-overview
