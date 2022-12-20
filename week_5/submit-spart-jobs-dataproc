@@ -1,0 +1,5 @@
+gcloud dataproc jobs submit pyspark \
+    --cluster=de-zoomcamp-cluster \
+    --region=europe-west6 \
+    gs://dtc_data_lake_strong-keyword-364715/code/spark_dataproc2_cluster.py \
+    -- \
